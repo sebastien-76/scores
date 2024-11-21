@@ -28,7 +28,7 @@ class Equipe
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(min: 3, max: 255, minMessage: 'Le nom doit faire au moins 3 caractères', maxMessage: 'Le nom doit faire au plus 255 caractères')]
-    #[Groups(['read_joueurs', 'show_joueur', 'new_joueur', 'read_equipes', 'show_equipe', 'show_score', 'new_equipe'])]
+    #[Groups(['read_joueurs', 'show_joueur', 'new_joueur', 'read_equipes', 'show_equipe', 'read_scores', 'show_score', 'new_equipe'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]

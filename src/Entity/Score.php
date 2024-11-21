@@ -23,7 +23,7 @@ class Score
 
     #[ORM\OneToOne(inversedBy: 'score', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['show_score'])]
+    #[Groups(['show_score', 'read_scores'])]
     private ?Equipe $equipe = null;
 
     public function getId(): ?int
