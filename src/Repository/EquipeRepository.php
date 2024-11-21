@@ -16,6 +16,16 @@ class EquipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Equipe::class);
     }
 
+    public function findOneByNom($value): ?Equipe
+   {
+       return $this->createQueryBuilder('e')
+            ->andWhere('e.nom = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+   }
+
     //    /**
     //     * @return Equipe[] Returns an array of Equipe objects
     //     */
