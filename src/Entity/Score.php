@@ -21,6 +21,20 @@ class Score
     #[Groups(['show_equipe', 'read_scores', 'show_score'])]
     private ?int $points = null;
 
+    #[ORM\Column]
+    #[Groups(['read_equipes','show_equipe', 'read_scores', 'show_score'])]
+
+    private ?int $victoire = null;
+
+    #[ORM\Column]
+    #[Groups(['show_equipe', 'read_scores', 'show_score'])]
+
+    private ?int $nul = null;
+
+    #[ORM\Column]
+    #[Groups(['show_equipe', 'read_scores', 'show_score'])]
+    private ?int $defaite = null;
+
     #[ORM\OneToOne(inversedBy: 'score', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['show_score', 'read_scores'])]
@@ -51,6 +65,42 @@ class Score
     public function setEquipe(Equipe $equipe): static
     {
         $this->equipe = $equipe;
+
+        return $this;
+    }
+
+    public function getVictoire(): ?int
+    {
+        return $this->victoire;
+    }
+
+    public function setVictoire(int $victoire): static
+    {
+        $this->victoire = $victoire;
+
+        return $this;
+    }
+
+    public function getNul(): ?int
+    {
+        return $this->nul;
+    }
+
+    public function setNul(int $nul): static
+    {
+        $this->nul = $nul;
+
+        return $this;
+    }
+
+    public function getDefaite(): ?int
+    {
+        return $this->defaite;
+    }
+
+    public function setDefaite(int $defaite): static
+    {
+        $this->defaite = $defaite;
 
         return $this;
     }

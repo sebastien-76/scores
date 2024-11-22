@@ -44,7 +44,7 @@ class Equipe
     private Collection $joueurs;
 
     #[ORM\OneToOne(mappedBy: 'equipe', cascade: ['persist', 'remove'])]
-    #[Groups(['show_equipe'])]
+    #[Groups(['read_equipes','show_equipe'])]
     private ?Score $score = null;
 
     public function __construct()
