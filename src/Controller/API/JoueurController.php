@@ -25,9 +25,8 @@ class JoueurController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_joueur_show', methods: ['GET'], requirements: ['id' => Requirement::DIGITS])]
-    public function show(JoueurRepository $joueurRepository, int $id): Response
+    public function show(Joueur $joueur): Response
     {
-        $joueur = $joueurRepository->find($id);
         return $this->json($joueur,  200, [], ['groups' => 'show_joueur']);
     }
 

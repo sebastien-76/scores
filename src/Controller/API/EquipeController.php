@@ -25,9 +25,8 @@ class EquipeController extends AbstractController
 
 
     #[Route('/{id}', name: 'app_equipe_show', methods: ['GET'], requirements: ['id' => Requirement::DIGITS])]
-    public function show(EquipeRepository $equipeRepository, int $id): Response
+    public function show(Equipe $equipe): Response
     {
-        $equipe = $equipeRepository->find($id);
         return $this->json($equipe,  200, [], ['groups' => 'show_equipe']);
     }
 
@@ -62,6 +61,9 @@ class EquipeController extends AbstractController
         try {
             $score = new Score();
             $score->setPoints(0);
+            $score->setVictoire(0);
+            $score->setNul(0);
+            $score->setDefaite(0);
             $em->persist($score);
 
             $equipe->setScore($score);
