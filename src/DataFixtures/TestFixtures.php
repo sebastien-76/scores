@@ -37,7 +37,11 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
             $this->manager->persist($equipe);
 
             $score = new Score();
-            $score->setPoints($this->faker->numberBetween(0, 100));
+            $score->setVictoire($this->faker->numberBetween(0, 10));
+            $score->setNul($this->faker->numberBetween(0, 10));
+            $score->setDefaite($this->faker->numberBetween(0, 10));
+            $points = $score->getVictoire() * 3 + $score->getNul() * 1;
+            $score->setPoints($points);
             $score->setEquipe($equipe);
             $this->manager->persist($score);
         }
