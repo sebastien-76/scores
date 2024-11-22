@@ -5,19 +5,28 @@ namespace App\DataFixtures;
 use App\Entity\Score;
 use App\Entity\Equipe;
 use App\Entity\Joueur;
+use App\Entity\User;
 use Faker\Factory as FakerFactory;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class TestFixtures extends Fixture implements FixtureGroupInterface
 {
     private $faker;
+    private $hasher;
     private $manager;
 
-    public function __construct()
+    public function __construct(UserPasswordHasherInterface $hasher)
     {
         $this->faker = FakerFactory::create('fr_FR');
+        $this->hasher = $hasher;
+    }
+
+    public static function getGroups(): array
+    {
+        return ['test'];
     }
 
     public function load(ObjectManager $manager): void
@@ -26,6 +35,7 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
         $this->loadEquipes();
         $this->loadJoueurs();
+        $this->loadUsers();
     }
 
     public function loadEquipes(): void
@@ -66,8 +76,16 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         $this->manager->flush();
     }
 
-    public static function getGroups(): array
+    public function loadUsers(): void
     {
-        return ['test'];
+        for ($i = 0; $i < 10; ++$i) {
+            $user = new User();
+            $user->setEmail($this->faker->email());
+            $user->setPassword($this->hasher->hashPassword($user, 'password'));
+            $user->setRoles(['ROLE_USER']);
+            $this->manager->persist($user);
+        }
+
+        $this->manager->flush();
     }
 }

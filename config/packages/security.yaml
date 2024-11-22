@@ -5,17 +5,42 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
+        
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
+
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            provider: app_user_provider
+            json_login:
+                check_path: /api/login
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~ 
+
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+
         main:
             lazy: true
             provider: app_user_provider
+   
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -28,6 +53,23 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+        - { path: ^/api/equipes/new, roles: ROLE_ADMIN }
+        - { path: ^/api/equipes/delete, roles: ROLE_ADMIN }
+        - { path: ^/api/equipes/\d+/edit, roles: ROLE_ADMIN }
+        - { path: ^/api/equipes/, roles: ROLE_USER }
+        - { path: ^/api/scores, roles: ROLE_ADMIN }
+        - { path: ^/api/users/new, roles: ROLE_ADMIN }
+        - { path: ^/api/users/delete, roles: ROLE_ADMIN }
+        - { path: ^/api/users, roles: ROLE_USER }
+        - { path: ^/api/joueurs/new, roles: ROLE_ADMIN }
+        - { path: ^/api/joueurs/delete, roles: ROLE_ADMIN }
+        - { path: ^/api/joueurs/\d+/edit, roles: ROLE_ADMIN }
+        - { path: ^/api/joueurs, roles: ROLE_USER }
+
+
+
+
 
 when@test:
     security:
